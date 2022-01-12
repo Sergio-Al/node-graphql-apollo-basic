@@ -1,5 +1,5 @@
-import 'cross-fetch/polyfill';
-import ApolloClient from "apollo-boost";
+import "cross-fetch/polyfill";
+import ApolloClient, { gql } from "apollo-boost";
 import { config } from "dotenv";
 
 config(); // config my env variables
@@ -14,3 +14,18 @@ const client = new ApolloClient({
     });
   },
 });
+
+const GET_ORGANIZATION = gql`
+  {
+    organization(login: "facebook") {
+      name
+      url
+    }
+  }
+`;
+
+client
+  .query({
+    query: GET_ORGANIZATION,
+  })
+  .then(console.log);
