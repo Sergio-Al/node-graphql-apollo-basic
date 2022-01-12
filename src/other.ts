@@ -1,1 +1,1 @@
-export const myOtherNumber = 343;
+console.log("hello from other!");
