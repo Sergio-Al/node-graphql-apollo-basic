@@ -7,6 +7,9 @@ import {
   REMOVE_STAR,
 } from "./graphql/requests";
 
+import * as readline from "node:readline";
+import { stdin as input, stdout as output } from "process";
+
 config(); // config my env variables
 
 const client = new ApolloClient({
@@ -30,28 +33,50 @@ client
     },
   })
   .then((res) => {
+    const { name, viewerHasStarred } = res.data.organization.repository;
     console.log(
-      res.data.organization.repository,
-      res.data.organization.repository.issues.edges
+      `You Repository ${name}\n`,
+      viewerHasStarred ? "you have starred\n" : "don't have starred yet\n"
     );
+    openQuestionListener();
   });
 
-// Mutation Add Star
-client
-  .mutate({
-    mutation: ADD_STAR,
-    variables: {
-      repositoryId: "MDEwOlJlcG9zaXRvcnkxNTA2Mjg2OQ==", // facebook/jest id
-    },
-  })
-  .then((res) => console.log("StarAdded", res));
+function addStar(): void {
+  // Mutation Add Star
+  client
+    .mutate({
+      mutation: ADD_STAR,
+      variables: {
+        repositoryId: "MDEwOlJlcG9zaXRvcnkxNTA2Mjg2OQ==", // facebook/jest id
+      },
+    })
+    .then((res) => console.log("StarAdded", res));
+}
 
 // Mutation Remove Star
-client
-  .mutate({
-    mutation: REMOVE_STAR,
-    variables: {
-      repositoryId: "MDEwOlJlcG9zaXRvcnkxNTA2Mjg2OQ==", // facebook/jest id (do not use ADD_STAR and REMOVE_STAR at the same time!)
-    },
-  })
-  .then((res) => console.log("Star Removed!", res));
+function removeStar(): void {
+  client
+    .mutate({
+      mutation: REMOVE_STAR,
+      variables: {
+        repositoryId: "MDEwOlJlcG9zaXRvcnkxNTA2Mjg2OQ==", // facebook/jest id (do not use ADD_STAR and REMOVE_STAR at the same time!)
+      },
+    })
+    .then((res) => console.log("Star Removed!", res));
+}
+
+function openQuestionListener() {
+  const myReadLine = readline.createInterface({ input, output });
+
+  myReadLine.question("Select and type: AddStar or RemoveStar: ", (answer) => {
+    if (answer === "AddStar") {
+      addStar();
+    } else if (answer === "RemoveStar") {
+      removeStar();
+    } else {
+      console.log("Please, select a correct option");
+    }
+
+    myReadLine.close(); // End the process
+  });
+}
