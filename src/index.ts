@@ -65,6 +65,7 @@ function removeStar(): void {
     .then((res) => console.log("Star Removed!", res));
 }
 
+// Start a stream process
 function openQuestionListener() {
   const myReadLine = readline.createInterface({ input, output });
 

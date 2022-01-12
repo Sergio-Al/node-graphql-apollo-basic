@@ -1,11 +1,11 @@
 {
   "name": "graphql-typescript",
   "version": "1.0.0",
-  "description": "A graphQL project with typescript",
+  "description": "A graphQL terminal project with typescript",
   "main": "src/index.js",
   "scripts": {
     "build": "rimraf ./build && tsc",
-    "start": "ts-node ./src/index.ts",
+    "start": "npm run build && node build/index.js",
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts",
