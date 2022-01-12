@@ -1,6 +1,6 @@
-# Boilerplate code
-I've created this boilerplate code that run node app with typescript.
-The code contains the following
+# GraphQL-ApolloClient-Node-Typescript
+This is a basic demonstration of an Apollo Client working in Node
+
 - Typescript configured for node
 - ESLint that works with typescript
 - npm scripts configured to run you ts code
