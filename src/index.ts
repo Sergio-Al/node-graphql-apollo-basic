@@ -1,6 +1,7 @@
 import "cross-fetch/polyfill";
-import ApolloClient, { gql } from "apollo-boost";
+import ApolloClient from "apollo-boost";
 import { config } from "dotenv";
+import { GET_ISSUES_OF_REPOSITORY } from "./graphql/requests";
 
 config(); // config my env variables
 
@@ -15,17 +16,17 @@ const client = new ApolloClient({
   },
 });
 
-const GET_ORGANIZATION = gql`
-  {
-    organization(login: "facebook") {
-      name
-      url
-    }
-  }
-`;
-
 client
   .query({
-    query: GET_ORGANIZATION,
+    query: GET_ISSUES_OF_REPOSITORY,
+    variables: {
+      organization: "facebook",
+      repository: "jest",
+    },
   })
-  .then(console.log);
+  .then((res) => {
+    console.log(
+      res.data.organization.repository,
+      res.data.organization.repository.issues.edges
+    );
+  });
