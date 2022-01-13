@@ -33,10 +33,15 @@ client
     },
   })
   .then((res) => {
-    const { name, viewerHasStarred } = res.data.organization.repository;
+    const { url, name, viewerHasStarred } = res.data.organization.repository;
     console.log(
-      `You Repository ${name}\n`,
-      viewerHasStarred ? "you have starred\n" : "don't have starred yet\n"
+      `Current URL: ${url}`,
+      `\nCurrent Repository: ${name}`,
+      `\nStar Status: ${
+        viewerHasStarred
+          ? "you have already placed a star"
+          : "You haven't placed a star yet"
+      }`
     );
     openQuestionListener();
   });
@@ -50,7 +55,7 @@ function addStar(): void {
         repositoryId: "MDEwOlJlcG9zaXRvcnkxNTA2Mjg2OQ==", // facebook/jest id
       },
     })
-    .then((res) => console.log("StarAdded", res));
+    .then((res) => console.log("Star Added!", res));
 }
 
 // Mutation Remove Star
